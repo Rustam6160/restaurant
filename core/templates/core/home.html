@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/kabinet.css' %}">
+{% endblock %}
+
+{% block content %}
+    <header>
+        <h1>Добро пожаловать в наш ресторан!</h1>
+        <nav>
+            <ul>
+                <li><a href="/accounts/sign_in/">Войти в аккаунт</a></li>
+                <li><a href="/reservations/">Бронирование</a></li>
+                <li><a href="/delivery/">Доставка</a></li>
+                <li><a href="/menu/">Меню</a></li>
+                <li><a href="/contacts/">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <p>Здесь будет размещена информация о ресторане, акции, новости и т.д.</p>
+    </main>
+
+{% endblock %}
