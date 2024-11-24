@@ -1,0 +1,22 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/kabinet.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% if user %}
+        <p>{{ user.username }}</p>
+        <p>{{ user.first_name }}</p>
+        <p>{{ user.last_name }}</p>
+        <p>{{ user.profile.phone_number }}</p>
+
+
+    {% endif %}
+
+    <a href="/accounts/login/">Войти в другой аккаунт</a>
+    <a href="/accounts/edit_profile/">Редактировать профиль</a>
+
+{% endblock %}

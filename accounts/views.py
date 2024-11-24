@@ -1,6 +1,5 @@
 
 from django.shortcuts import render, redirect
-from .forms import ProfileForm
 from django.contrib import messages
 from django.views import View
 from django.views.generic import TemplateView, ListView
@@ -8,6 +7,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import SignUpForm, EditProfileForm
+from django.views.generic.edit import UpdateView
+from django.contrib.auth.models import User
 
 
 class RegisterUserView(View):
@@ -33,14 +34,33 @@ class LoginUserView(View):
     def get(self, request):
         return render(request, 'accounts/login.html', {})
 
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'You\'re logged in')
+            return redirect('home')
+        else:
+            messages.error(request, 'Error logging in')
+            return redirect('login')
 
 
-def edit_profile(request):
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            return redirect('/')  # перенаправить на страницу профиля
-    else:
-        form = ProfileForm(instance=request.user.profile)
-    return render(request, 'accounts/edit_profile.html', {'form': form})
+
+class EditProfileView(UpdateView):
+    model = User
+    form_class = EditProfileForm
+    template_name = 'accounts/edit_profile.html'
+    success_url = reverse_lazy('home')  # Перенаправление после успешного сохранения
+
+    def get_object(self, queryset=None):
+        # Возвращаем текущего пользователя
+        return self.request.user
+
+class ProfileView(View):
+    def get(self, request):
+        current_user = User.objects.get(id=request.user.id)
+
+
+        return render(request, 'accounts/profile.html', context={'current_user': current_user})

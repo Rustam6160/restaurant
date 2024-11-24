@@ -1,0 +1,17 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/kabinet.css' %}">
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url 'edit_profile' %}">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+    <input type="submit" value="Сохранить" class=" btn btn-secondary">
+    </form>
+{% endblock %}

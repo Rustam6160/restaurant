@@ -4,18 +4,41 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['phone_number']
+
+
 
 class EditProfileForm(UserChangeForm):
-    password = forms.CharField(label="", widget=forms.TextInput(attrs={'type': 'hidden'}))
+    phone_number = forms.CharField(
+        label="Номер телефона",
+        required=False,
+        widget=forms.TextInput(attrs={'placeholder': 'Введите номер телефона'}),
+    )
+    password = forms.CharField(
+        label="", widget=forms.TextInput(attrs={'type': 'hidden'})
+    )
 
     class Meta:
         model = User
-        # excludes private information from User
         fields = ('username', 'first_name', 'last_name', 'email', 'password',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Получаем профиль пользователя
+        if hasattr(self.instance, 'profile'):  # Проверяем наличие профиля
+            self.fields['phone_number'].initial = self.instance.profile.phone_number
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            # Сохраняем номер телефона в профиль
+            phone_number = self.cleaned_data.get('phone_number')
+            Profile.objects.update_or_create(
+                user=user, defaults={'phone_number': phone_number}
+            )
+        return user
+
+
 
 
 class SignUpForm(UserCreationForm):
