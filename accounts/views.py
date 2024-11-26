@@ -41,7 +41,7 @@ class LoginUserView(View):
         if user is not None:
             login(request, user)
             messages.success(request, 'You\'re logged in')
-            return redirect('home')
+            return redirect('profile')
         else:
             messages.error(request, 'Error logging in')
             return redirect('login')
@@ -60,7 +60,8 @@ class EditProfileView(UpdateView):
 
 class ProfileView(View):
     def get(self, request):
-        current_user = User.objects.get(id=request.user.id)
-
-
-        return render(request, 'accounts/profile.html', context={'current_user': current_user})
+        if request.user.is_authenticated:
+            current_user = User.objects.get(id=request.user.id)
+            return render(request, 'accounts/profile.html', context={'current_user': current_user})
+        else:
+            return render(request, 'accounts/profile.html')

@@ -11,7 +11,7 @@ urlpatterns = [
     # path('reservations/', include('reservations.urls')),
     # path('delivery/', include('delivery.urls')),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Поддержка медиа-файлов в режиме разработки
 if settings.DEBUG:

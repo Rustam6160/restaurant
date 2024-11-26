@@ -7,16 +7,23 @@
 {% endblock %}
 
 {% block content %}
-    {% if user %}
+    {% if current_user %}
         <p>{{ user.username }}</p>
         <p>{{ user.first_name }}</p>
         <p>{{ user.last_name }}</p>
         <p>{{ user.profile.phone_number }}</p>
 
 
+        <a href="{% url 'login' %}">Войти в другой аккаунт</a><br>
+        <a href="{% url 'edit_profile' %}">Редактировать профиль</a><br>
+        <a href="{% url 'home' %}">На главную</a>
+    {% else %}
+        <h2>Вы должны войти в аккаунт!</h2>
+
+        <a href="{% url 'login' %}">Войти в другой аккаунт</a><br>
+        <a href="{% url 'home' %}">На главную</a>
     {% endif %}
 
-    <a href="/accounts/login/">Войти в другой аккаунт</a>
-    <a href="/accounts/edit_profile/">Редактировать профиль</a>
+
 
 {% endblock %}
