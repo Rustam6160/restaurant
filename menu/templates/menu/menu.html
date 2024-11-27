@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+</head>
+<body>
+
+
+
+<div style="display: flex">
+    <div class="left_sidebar" style="background-color: #888888; width: 30%; min-height: 100vh">
+        <h3>Категории: </h3>
+        <div class="category-items" style="display: block">
+            {% for category in categories %}
+                <div class="category_item" style="">
+                    <h4 style="margin: 5px">{{ category.name }}</h4>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <main>
+        <div class="menu-items" style="display: flex">
+            {% for dish in dishes %}
+                <div class="menu_item" style="margin: 5px;display: flex; flex-wrap: wrap; background-color: #888888; width: 100px; height: 230px;">
+                    <p style="margin: 0">{{ dish.name }}</p>
+                    {% if dish.img %}<img src="{{ dish.img.url }}" style="max-width: 100px">{% endif %}
+                    <p style="margin: 0">цена: {{ dish.price }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+</body>
+</html>
