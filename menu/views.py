@@ -14,6 +14,6 @@ class Menu(View):
         dishes = Dish.objects.all()
         categories = Category.objects.all()
 
-        return render(request, "menu/menu.html", context={'dishes': dishes, 'categories': categories})
+        return render(request, "menu/menu2.html", context={'dishes': dishes, 'categories': categories})
 
 

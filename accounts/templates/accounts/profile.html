@@ -1,29 +1,109 @@
 {% extends "accounts/base.html" %}
 {% load static %}
 
-
-{% block css %}
-    <link rel="stylesheet" href="{% static 'css/kabinet.css' %}">
-{% endblock %}
-
 {% block content %}
-    {% if current_user %}
-        <p>{{ user.username }}</p>
-        <p>{{ user.first_name }}</p>
-        <p>{{ user.last_name }}</p>
-        <p>{{ user.profile.phone_number }}</p>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
 
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+        }
 
-        <a href="{% url 'login' %}">Войти в другой аккаунт</a><br>
-        <a href="{% url 'edit_profile' %}">Редактировать профиль</a><br>
-        <a href="{% url 'home' %}">На главную</a>
-    {% else %}
-        <h2>Вы должны войти в аккаунт!</h2>
+        header h1 {
+            margin: 0;
+        }
 
-        <a href="{% url 'login' %}">Войти в аккаунт</a><br>
-        <a href="{% url 'home' %}">На главную</a>
-    {% endif %}
+        .profile-container {
+            margin: 30px auto;
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
 
+        .profile-container p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
 
+        .profile-container a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            color: white;
+            background-color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-{% endblock %}
+        .profile-container a:hover {
+            background-color: #ffa500;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .profile-container {
+                padding: 15px;
+            }
+
+            .profile-container p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Личный кабинет</h1>
+    </header>
+    <div class="profile-container">
+        {% if current_user %}
+            <p>Имя пользователя: {{ user.username }}</p>
+            <p>Имя: {{ user.first_name }}</p>
+            <p>Фамилия: {{ user.last_name }}</p>
+            <p>Телефон: {{ user.profile.phone_number }}</p>
+            <a href="{% url 'login' %}">Войти в другой аккаунт</a>
+            <a href="{% url 'edit_profile' %}">Редактировать профиль</a>
+            <a href="{% url 'home' %}">На главную</a>
+        {% else %}
+            <h2>Вы должны войти в аккаунт!</h2>
+            <a href="{% url 'login' %}">Войти в аккаунт</a>
+            <a href="{% url 'home' %}">На главную</a>
+        {% endif %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = "{{ user.username }}";
+            if (username) {
+                console.log(Добро пожаловать, ${username}!);
+            } else {
+                console.log("Пользователь не вошел в аккаунт.");
+            }
+        });
+    </script>
+</body>
+</html>
+{%endblock%}
