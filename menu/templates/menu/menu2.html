@@ -86,7 +86,7 @@
 
         /* Сетка меню */
         .menu-grid {
-            display: grid;
+            display: inline-grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
         }
@@ -163,11 +163,18 @@
             </header>
 
             <div class="menu-grid">
-                {% for dish in dishes %}
-                    <div class="menu-item" data-name="Steak" data-price="20">
-                        {% if dish.img %}<img src="{{ dish.img.url }}" style="max-width: 100px">{% endif %}
-                        <p>{{ dish.name }}</p>
+                {% for category in categories %}
+                    <h2>{{ category.name }}</h2>
+                    <div class="menu_by_category">
+                        {% for dish in dishes %}
+                            {% if dish.category == category %}
+                                <div class="menu-item" data-name="Steak" data-price="20">
+                                    {% if dish.img %}<img src="{{ dish.img.url }}" style="max-width: 100px">{% endif %}
+                                    <p>{{ dish.name }}</p>
 
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 {% endfor %}
             </div>

@@ -8,7 +8,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('accounts/', include('accounts.urls')),
     path('menu/', include('menu.urls')),
-    # path('reservations/', include('reservations.urls')),
+    path('reservations/', include('reservations.urls')),
     # path('delivery/', include('delivery.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
